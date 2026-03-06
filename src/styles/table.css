@@ -1,0 +1,98 @@
+/* =============================================
+   table.css — Table component styles
+   ============================================= */
+
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+thead {
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+thead th {
+  padding: 12px 20px;
+  text-align: left;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s ease;
+}
+
+tbody tr:last-child { border-bottom: none; }
+
+tbody tr:hover { background: var(--surface-2); }
+
+tbody td {
+  padding: 14px 20px;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.td-primary {
+  font-weight: 500;
+  color: var(--black);
+}
+
+.td-muted {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.td-price {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.td-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* Empty state */
+.table-empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-muted);
+}
+
+.table-empty .empty-icon {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  display: block;
+  opacity: 0.4;
+}
+
+.table-empty p {
+  font-size: 0.85rem;
+}
+
+/* Row count badge */
+.row-count {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 2px 10px;
+  border-radius: 50px;
+  margin-left: 8px;
+}

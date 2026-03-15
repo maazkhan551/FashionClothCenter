@@ -1,98 +1,56 @@
 /* =============================================
-   table.css — Table component styles
+   table.css — Table component styles (refreshed)
    ============================================= */
 
-.table-wrapper {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
+.table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.85rem;
-}
+table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
 
 thead {
   background: var(--surface-2);
   border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
 }
 
 thead th {
-  padding: 12px 20px;
+  padding: 12px 22px;
   text-align: left;
-  font-size: 0.68rem;
-  font-weight: 600;
+  font-size: 0.66rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: var(--text-muted);
   white-space: nowrap;
 }
 
 tbody tr {
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-soft);
   transition: background 0.12s ease;
 }
 
 tbody tr:last-child { border-bottom: none; }
-
-tbody tr:hover { background: var(--surface-2); }
+tbody tr:hover { background: rgba(248, 247, 244, 0.7); }
 
 tbody td {
-  padding: 14px 20px;
+  padding: 15px 22px;
   color: var(--text-primary);
   vertical-align: middle;
 }
 
-.td-primary {
-  font-weight: 500;
-  color: var(--black);
-}
-
-.td-muted {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-}
+.td-primary { font-weight: 500; color: var(--black); }
+.td-muted   { color: var(--text-muted); font-size: 0.8rem; }
 
 .td-price {
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   font-weight: 600;
   color: var(--black);
 }
 
-.td-actions {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
+.td-actions { display: flex; gap: 6px; align-items: center; }
 
 /* Empty state */
-.table-empty {
-  text-align: center;
-  padding: 48px 24px;
-  color: var(--text-muted);
-}
-
-.table-empty .empty-icon {
-  font-size: 2rem;
-  margin-bottom: 12px;
-  display: block;
-  opacity: 0.4;
-}
-
-.table-empty p {
-  font-size: 0.85rem;
-}
-
-/* Row count badge */
-.row-count {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  font-weight: 400;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  padding: 2px 10px;
-  border-radius: 50px;
-  margin-left: 8px;
-}
+.table-empty { text-align: center; padding: 56px 24px; color: var(--text-muted); }
+.table-empty .empty-icon { font-size: 2.2rem; margin-bottom: 12px; display: block; opacity: 0.35; }
+.table-empty p { font-size: 0.85rem; }

@@ -1,13 +1,14 @@
 /* =============================================
-   form.css — Modal & Form styles
+   form.css — Modal, Forms, Cart (refreshed)
    ============================================= */
 
-/* --- Modal Overlay --- */
+/* ── Modal Overlay ───────────────────────────── */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(10, 10, 10, 0.55);
-  backdrop-filter: blur(3px);
+  background: rgba(15, 15, 15, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,25 +17,23 @@
   animation: overlayIn 0.2s ease;
 }
 
-@keyframes overlayIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+@keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* --- Modal Box --- */
+/* ── Modal Box ───────────────────────────────── */
 .modal-box {
   background: var(--surface);
-  border-radius: 14px;
+  border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
   width: 100%;
-  max-width: 520px;
+  max-width: 530px;
   max-height: 90vh;
   overflow-y: auto;
-  animation: modalIn 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: modalIn 0.24s cubic-bezier(0.34, 1.4, 0.64, 1);
+  border: 1px solid var(--border);
 }
 
 @keyframes modalIn {
-  from { opacity: 0; transform: scale(0.94) translateY(12px); }
+  from { opacity: 0; transform: scale(0.93) translateY(14px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 
@@ -42,48 +41,51 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 22px 28px 18px;
-  border-bottom: 1px solid var(--border);
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--surface-2);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 
 .modal-header h2 {
   font-family: var(--font-display);
-  font-size: 1.3rem;
+  font-size: 1.45rem;
   font-weight: 600;
   color: var(--black);
 }
 
 .modal-close {
-  width: 32px; height: 32px;
+  width: 33px; height: 33px;
   border-radius: 50%;
   border: 1px solid var(--border);
-  background: var(--bg);
+  background: var(--surface);
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
-  transition: all 0.15s;
+  transition: all 0.16s;
 }
 
 .modal-close:hover {
   background: var(--black);
   color: white;
   border-color: var(--black);
+  transform: rotate(90deg);
 }
 
-.modal-body { padding: 24px 28px; }
+.modal-body { padding: 26px 28px; }
 
 .modal-footer {
   display: flex;
   gap: 10px;
   justify-content: flex-end;
   padding: 18px 28px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--border-soft);
   background: var(--surface-2);
-  border-radius: 0 0 14px 14px;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
 }
 
-/* --- Form Elements --- */
+/* ── Form Elements ───────────────────────────── */
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -92,62 +94,62 @@
 
 .form-grid.single { grid-template-columns: 1fr; }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
+.form-group { display: flex; flex-direction: column; gap: 7px; }
 .form-group.full { grid-column: 1 / -1; }
 
 label {
-  font-size: 0.74rem;
-  font-weight: 600;
+  font-size: 0.72rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.1em;
   color: var(--text-secondary);
 }
 
 input, select, textarea {
   width: 100%;
   padding: 10px 14px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
   font-family: var(--font-body);
   font-size: 0.88rem;
   color: var(--text-primary);
   background: var(--surface);
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
   outline: none;
 }
+
+input:hover, select:hover { border-color: #ccc; }
 
 input:focus, select:focus, textarea:focus {
   border-color: var(--gold);
   box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.12);
+  background: #fff;
 }
 
 input::placeholder { color: var(--text-muted); }
 select { cursor: pointer; }
 
-/* --- Cart section on Orders page --- */
+/* ── Cart (Orders page) ──────────────────────── */
 .cart-wrapper {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   overflow: hidden;
-  margin-top: 28px;
+  margin-top: 24px;
 }
 
 .cart-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 22px;
-  border-bottom: 1px solid var(--border);
+  padding: 15px 24px;
+  border-bottom: 1px solid var(--border-soft);
   gap: 12px;
+  transition: background 0.12s;
 }
 
+.cart-item:hover { background: var(--surface-2); }
 .cart-item:last-child { border-bottom: none; }
 
 .cart-item-info { flex: 1; }
@@ -156,7 +158,7 @@ select { cursor: pointer; }
 
 .cart-item-price {
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--gold);
   min-width: 90px;
@@ -167,30 +169,31 @@ select { cursor: pointer; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 22px;
+  padding: 18px 24px;
   background: var(--black);
-  color: white;
+  background-image: linear-gradient(90deg, #1a1a1a, #2c2c2c);
 }
 
 .cart-total-label {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.5);
+  font-weight: 600;
 }
 
 .cart-total-amount {
   font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 1.6rem;
+  font-weight: 700;
   color: var(--gold);
 }
 
-/* --- Order Form Card --- */
+/* ── Order Form Card ─────────────────────────── */
 .order-form-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   padding: 28px;
   box-shadow: var(--shadow-sm);
   margin-bottom: 8px;
@@ -198,30 +201,24 @@ select { cursor: pointer; }
 
 .order-form-card h3 {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--black);
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
+  margin-bottom: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-soft);
 }
 
-/* Inventory status */
+/* ── Inventory Stock Bar ─────────────────────── */
 .stock-bar {
-  width: 80px;
-  height: 5px;
-  border-radius: 5px;
+  width: 72px;
+  height: 4px;
+  border-radius: 4px;
   background: var(--border);
   overflow: hidden;
-  margin-top: 5px;
 }
 
-.stock-bar-fill {
-  height: 100%;
-  border-radius: 5px;
-  transition: width 0.3s ease;
-}
-
+.stock-bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
 .stock-bar-fill.high   { background: var(--green); }
 .stock-bar-fill.medium { background: var(--gold);  }
 .stock-bar-fill.low    { background: var(--red);   }

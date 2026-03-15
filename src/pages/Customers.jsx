@@ -1,20 +1,17 @@
 // ============================================================
 // Customers.jsx — Manage customer records
-// Features: List all customers, Add customer via modal.
-// In future: connect to GET/POST /api/customers
+// ✅ Receives customers + setCustomers as props from App.jsx
 // ============================================================
 
 import { useState } from 'react';
 import Table  from '../components/Table';
 import Modal  from '../components/Modal';
-import { customers as initialCustomers } from '../data/dummyData';
 
 const EMPTY_FORM = { name: '', phone: '', address: '' };
 
-export default function Customers() {
-  const [customers, setCustomers] = useState(initialCustomers);
+export default function Customers({ customers, setCustomers }) {
   const [isModalOpen, setModalOpen] = useState(false);
-  const [form, setForm] = useState(EMPTY_FORM);
+  const [form, setForm]             = useState(EMPTY_FORM);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,7 +23,7 @@ export default function Customers() {
     setModalOpen(true);
   };
 
-  // Add new customer to local state
+  // Add new customer into shared App-level state
   // Later: replace with API call
   const handleSubmit = () => {
     if (!form.name || !form.phone) {
@@ -34,7 +31,7 @@ export default function Customers() {
       return;
     }
     const newCustomer = {
-      id:      customers.length + 1,
+      id:      Date.now(),
       name:    form.name,
       phone:   form.phone,
       address: form.address || '—',
@@ -43,12 +40,10 @@ export default function Customers() {
     setModalOpen(false);
   };
 
-  // Table column definitions
   const COLUMNS = [
     { key: 'id',      label: '#',       render: (v) => <span className="td-muted">{v}</span> },
     { key: 'name',    label: 'Name',    render: (v) => (
         <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-          {/* Initials avatar */}
           <div style={{
             width:32, height:32, borderRadius:'50%',
             background:'var(--gold-dim)', border:'1px solid var(--gold)',
@@ -78,7 +73,6 @@ export default function Customers() {
 
   return (
     <div className="page-wrapper">
-      {/* Header */}
       <div className="page-header">
         <div>
           <h1>Customers</h1>
@@ -89,27 +83,22 @@ export default function Customers() {
         </button>
       </div>
 
-      {/* Customers Table */}
       <div className="section-block">
         <div className="section-block-header">
           <div>
-            <h3>
-              All Customers
-              <span className="row-count">{customers.length}</span>
-            </h3>
+            <h3>All Customers <span className="row-count">{customers.length}</span></h3>
           </div>
         </div>
         <Table columns={COLUMNS} data={customers} emptyMsg="No customers yet." />
       </div>
 
-      {/* Add Customer Modal */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         title="Add New Customer"
         footer={
           <>
-            <button className="btn btn-ghost" onClick={() => setModalOpen(false)}>Cancel</button>
+            <button className="btn btn-ghost"   onClick={() => setModalOpen(false)}>Cancel</button>
             <button className="btn btn-primary" onClick={handleSubmit}>Save Customer</button>
           </>
         }
@@ -117,27 +106,15 @@ export default function Customers() {
         <div className="form-grid single">
           <div className="form-group">
             <label>Full Name *</label>
-            <input
-              name="name" value={form.name}
-              onChange={handleChange}
-              placeholder="e.g. Ayesha Tariq"
-            />
+            <input name="name" value={form.name} onChange={handleChange} placeholder="e.g. Ayesha Tariq" />
           </div>
           <div className="form-group">
             <label>Phone Number *</label>
-            <input
-              name="phone" value={form.phone}
-              onChange={handleChange}
-              placeholder="e.g. 0321-4567890"
-            />
+            <input name="phone" value={form.phone} onChange={handleChange} placeholder="e.g. 0321-4567890" />
           </div>
           <div className="form-group">
             <label>Address</label>
-            <input
-              name="address" value={form.address}
-              onChange={handleChange}
-              placeholder="e.g. House 12, F-7/2, Islamabad"
-            />
+            <input name="address" value={form.address} onChange={handleChange} placeholder="e.g. House 12, F-7/2, Islamabad" />
           </div>
         </div>
       </Modal>

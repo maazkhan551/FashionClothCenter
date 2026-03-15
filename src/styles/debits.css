@@ -1,0 +1,240 @@
+/* =============================================
+   debits.css — Customer Dues page styles
+   Fashion Cloth Center Admin
+   ============================================= */
+
+/* ── Summary Cards Grid ──────────────────────── */
+.debits-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.debit-stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.debit-stat-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Left accent bar */
+.debit-stat-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: linear-gradient(180deg, var(--gold), transparent);
+  border-radius: 4px 0 0 4px;
+}
+
+.debit-stat-card.alert::after { background: linear-gradient(180deg, var(--red), transparent); }
+.debit-stat-card.clear::after { background: linear-gradient(180deg, var(--green), transparent); }
+
+.debit-stat-icon {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.debit-stat-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.debit-stat-value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--black);
+  line-height: 1;
+}
+
+.debit-stat-card.alert .debit-stat-value { color: var(--red); }
+.debit-stat-card.clear .debit-stat-value { color: var(--green); }
+
+.debit-stat-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+/* ── Panel Header with Search ────────────────── */
+.debits-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 26px;
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--surface-2);
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.debits-panel-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--black);
+}
+
+.debits-panel-header p {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+/* ── Search Bar ──────────────────────────────── */
+.debits-search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 50px;
+  padding: 8px 16px;
+  min-width: 280px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.debits-search-wrapper:focus-within {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,162,39,0.1);
+}
+
+.debits-search-icon {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.debits-search-input {
+  flex: 1;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  color: var(--text-primary);
+  padding: 0 !important;
+  min-width: 0;
+}
+
+.debits-search-input::placeholder { color: var(--text-muted); }
+
+.debits-search-clear {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  padding: 2px 4px;
+  border-radius: 50%;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+
+.debits-search-clear:hover {
+  background: var(--bg-2);
+  color: var(--text-primary);
+}
+
+/* ── Table Row Highlights ────────────────────── */
+.debit-row-due {
+  background: rgba(192, 57, 43, 0.025) !important;
+}
+
+.debit-row-due:hover {
+  background: rgba(192, 57, 43, 0.05) !important;
+}
+
+/* Pending due amount — bold red */
+.pending-due-amount {
+  font-weight: 700;
+  color: var(--red);
+  font-size: 0.88rem;
+}
+
+/* Customer initials avatar */
+.cust-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+  border: 1px solid rgba(201,162,39,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--amber);
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+/* ── Customer Detail Modal ───────────────────── */
+.modal-customer-chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.modal-chip {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  gap: 2px;
+  flex: 1;
+  min-width: 110px;
+  border: 1px solid transparent;
+}
+
+.modal-chip span {
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.75;
+}
+
+.modal-chip strong {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.modal-chip.billed { background: var(--bg-2);    color: var(--text-secondary); border-color: var(--border); }
+.modal-chip.paid   { background: var(--green-bg); color: var(--green);         border-color: rgba(26,122,74,0.2); }
+.modal-chip.due    { background: var(--red-bg);   color: var(--red);           border-color: rgba(192,57,43,0.2); }
+.modal-chip.clear  { background: var(--green-bg); color: var(--green);         border-color: rgba(26,122,74,0.2); }
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 900px) {
+  .debits-stats-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 640px) {
+  .debits-panel-header { flex-direction: column; align-items: flex-start; }
+  .debits-search-wrapper { min-width: 100%; width: 100%; }
+  .debits-stats-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 420px) {
+  .debits-stats-grid { grid-template-columns: 1fr; }
+}

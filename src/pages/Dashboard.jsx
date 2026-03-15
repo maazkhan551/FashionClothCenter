@@ -1,56 +1,46 @@
 // ============================================================
-// Dashboard.jsx — Overview page with stats & recent orders
-// Data comes from dummyData.js via React state.
+// Dashboard.jsx — Overview with stats & recent orders
+// Updated: handles new multi-item order structure
 // ============================================================
 
-import { useState } from 'react';
-import Card   from '../components/Card';
-import Table  from '../components/Table';
-import { products, customers, orders } from '../data/dummyData';
+import Card  from '../components/Card';
+import Table from '../components/Table';
 
-// Format price in PKR
-const fmt = (n) => `Rs. ${n.toLocaleString()}`;
+const fmt = (n) => `Rs. ${Number(n).toLocaleString()}`;
 
-// Status badge helper
-const StatusBadge = ({ status }) => {
-  const map = {
-    Delivered:  'badge-green',
-    Shipped:    'badge-blue',
-    Processing: 'badge-gold',
-    Pending:    'badge-grey',
-  };
+const PayBadge = ({ status }) => {
+  const map = { Paid: 'badge-green', Partial: 'badge-gold', Unpaid: 'badge-red' };
   return <span className={`badge ${map[status] || 'badge-grey'}`}>{status}</span>;
 };
 
-// Columns for the recent orders table
 const ORDER_COLUMNS = [
-  { key: 'id',           label: '#',        render: (v) => <span className="td-muted">#{v}</span> },
-  { key: 'customerName', label: 'Customer',  render: (v) => <span className="td-primary">{v}</span> },
-  { key: 'productName',  label: 'Product'  },
-  { key: 'quantity',     label: 'Qty',      render: (v) => <span className="td-muted">×{v}</span> },
-  { key: 'total',        label: 'Total',    render: (v) => <span className="td-price">{fmt(v)}</span> },
-  { key: 'status',       label: 'Status',   render: (v) => <StatusBadge status={v} /> },
+  { key: 'id',            label: '#',       render: v => <span className="td-muted">#{v}</span> },
+  { key: 'customerName',  label: 'Customer',render: v => <span className="td-primary">{v}</span> },
+  { key: 'date',          label: 'Date',    render: v => <span className="td-muted">{v}</span> },
+  { key: 'finalTotal',    label: 'Bill',    render: v => <span className="td-price">{fmt(v)}</span> },
+  { key: 'amountDue',     label: 'Due',     render: v => v > 0
+      ? <span style={{ color:'var(--red)', fontWeight:600 }}>{fmt(v)}</span>
+      : <span style={{ color:'var(--green)', opacity:0.6 }}>—</span>
+  },
+  { key: 'paymentStatus', label: 'Payment', render: v => <PayBadge status={v} /> },
 ];
 
-export default function Dashboard() {
-  // In future: replace these with API calls (useEffect + fetch)
-  const [productList]  = useState(products);
-  const [customerList] = useState(customers);
-  const [orderList]    = useState(orders);
+export default function Dashboard({ products, customers, orders }) {
+  const totalProducts  = products.length;
+  const totalCustomers = customers.length;
+  const totalOrders    = orders.length;
+  const lowStock       = products.filter(p => p.stock < 5).length;
 
-  // Calculate stats
-  const totalProducts  = productList.length;
-  const totalCustomers = customerList.length;
-  const totalOrders    = orderList.length;
-  const lowStock       = productList.filter(p => p.stock < 5).length;
-  const totalRevenue   = orderList.reduce((sum, o) => sum + o.total, 0);
+  // Total revenue = sum of finalTotal from all orders
+  const totalRevenue = orders.reduce((s, o) => s + (o.finalTotal ?? o.total ?? 0), 0);
 
-  // Show only last 5 orders on dashboard
-  const recentOrders = [...orderList].reverse().slice(0, 6);
+  // Total pending dues across all orders
+  const totalDue = orders.reduce((s, o) => s + (o.amountDue ?? 0), 0);
+
+  const recentOrders = [...orders].slice(0, 6);
 
   return (
     <div className="page-wrapper">
-      {/* Page Header */}
       <div className="page-header">
         <div>
           <h1>Overview</h1>
@@ -60,37 +50,14 @@ export default function Dashboard() {
 
       {/* ── Stat Cards ── */}
       <div className="stats-grid">
-        <Card
-          label="Total Products"
-          value={totalProducts}
-          sub="Across all categories"
-          icon="👗"
-        />
-        <Card
-          label="Total Customers"
-          value={totalCustomers}
-          sub="Registered clients"
-          icon="👥"
-        />
-        <Card
-          label="Total Orders"
-          value={totalOrders}
-          sub={`Revenue: ${fmt(totalRevenue)}`}
-          icon="🧾"
-        />
-        <Card
-          label="Low Stock Items"
-          value={lowStock}
-          sub="Items with stock below 5"
-          icon="⚠️"
-          alert={lowStock > 0}
-        />
+        <Card label="Total Products"  value={totalProducts}  sub="Across all categories" icon="👗" />
+        <Card label="Total Customers" value={totalCustomers} sub="Registered clients"    icon="👥" />
+        <Card label="Total Orders"    value={totalOrders}    sub={`Revenue: ${fmt(totalRevenue)}`} icon="🧾" />
+        <Card label="Pending Dues"    value={fmt(totalDue)}  sub="Across all customers"  icon="💳" alert={totalDue > 0} />
       </div>
 
-      {/* ── Bottom Grid: Recent Orders + Top Products ── */}
       <div className="dashboard-grid">
-
-        {/* Recent Orders Table */}
+        {/* Recent Orders */}
         <div className="section-block">
           <div className="section-block-header">
             <div>
@@ -98,14 +65,10 @@ export default function Dashboard() {
               <p>Last {recentOrders.length} transactions</p>
             </div>
           </div>
-          <Table
-            columns={ORDER_COLUMNS}
-            data={recentOrders}
-            emptyMsg="No orders yet."
-          />
+          <Table columns={ORDER_COLUMNS} data={recentOrders} emptyMsg="No orders yet." />
         </div>
 
-        {/* Top Products sidebar panel */}
+        {/* Top Products */}
         <div className="section-block">
           <div className="section-block-header">
             <div>
@@ -114,7 +77,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="top-products">
-            {[...productList]
+            {[...products]
               .sort((a, b) => b.price - a.price)
               .slice(0, 6)
               .map(p => (
@@ -128,7 +91,6 @@ export default function Dashboard() {
               ))}
           </div>
         </div>
-
       </div>
     </div>
   );

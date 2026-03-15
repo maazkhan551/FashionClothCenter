@@ -1,0 +1,275 @@
+/* =============================================
+   products.css — Product Card Grid
+   Fashion Cloth Center Admin
+   ============================================= */
+
+/* ── Filter / Toolbar bar ────────────────────── */
+.products-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.products-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Category filter pills */
+.filter-pill {
+  padding: 6px 16px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+.filter-pill:hover {
+  border-color: var(--gold);
+  color: var(--amber);
+  background: var(--gold-dim);
+}
+
+.filter-pill.active {
+  background: var(--black);
+  color: var(--gold);
+  border-color: var(--black);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* ── Product Card Grid ───────────────────────── */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+/* ── Individual Product Card ─────────────────── */
+.product-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.24s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.product-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-4px);
+  border-color: transparent;
+}
+
+/* ── Card Image ──────────────────────────────── */
+.product-card-image {
+  position: relative;
+  width: 100%;
+  height: 230px;
+  overflow: hidden;
+  background: var(--bg-2);
+  flex-shrink: 0;
+}
+
+.product-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  display: block;
+}
+
+.product-card:hover .product-card-image img {
+  transform: scale(1.06);
+}
+
+/* Fallback placeholder when image fails or is missing */
+.product-card-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--bg-2), var(--bg));
+  color: var(--text-muted);
+  gap: 10px;
+}
+
+.product-card-image-placeholder span {
+  font-size: 2.5rem;
+  opacity: 0.4;
+}
+
+.product-card-image-placeholder p {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  opacity: 0.5;
+  text-transform: uppercase;
+}
+
+/* Category chip — floated on top of image */
+.product-card-category {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(26, 26, 26, 0.78);
+  color: var(--gold-light);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 50px;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Stock badge — top right of image */
+.product-card-stock-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+/* ── Card Body ───────────────────────────────── */
+.product-card-body {
+  padding: 18px 18px 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card-name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--black);
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  margin-bottom: 10px;
+}
+
+.product-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 14px;
+}
+
+.product-card-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product-card-meta-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.product-card-meta-value {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Color dot inline */
+.color-dot {
+  display: inline-block;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: #ccc;
+  margin-right: 5px;
+  border: 1px solid rgba(0,0,0,0.08);
+  vertical-align: middle;
+}
+
+/* Divider */
+.product-card-divider {
+  height: 1px;
+  background: var(--border-soft);
+  margin: 0 -18px 14px;
+}
+
+/* Price row */
+.product-card-price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.product-card-price {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--black);
+  letter-spacing: -0.01em;
+}
+
+.product-card-stock-count {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+/* ── Card Actions ────────────────────────────── */
+.product-card-actions {
+  display: flex;
+  gap: 8px;
+  padding: 14px 18px 18px;
+  margin-top: auto;
+}
+
+.product-card-actions .btn {
+  flex: 1;
+  justify-content: center;
+}
+
+/* ── Empty state for grid ────────────────────── */
+.products-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 64px 24px;
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text-muted);
+}
+
+.products-empty span { font-size: 3rem; display: block; margin-bottom: 14px; opacity: 0.35; }
+.products-empty p    { font-size: 0.88rem; }
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 1200px) {
+  .products-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+}
+
+@media (max-width: 768px) {
+  .products-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .product-card-image { height: 200px; }
+}
+
+@media (max-width: 520px) {
+  .products-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .product-card-image { height: 180px; }
+}
+
+@media (max-width: 380px) {
+  .products-grid { grid-template-columns: 1fr; }
+}

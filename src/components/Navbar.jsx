@@ -1,7 +1,4 @@
-// ============================================================
-// Navbar.jsx — Top navigation bar
-// Updated: added Debits page title
-// ============================================================
+// Navbar.jsx — Apex-style top bar with search + action button
 
 import { useLocation } from 'react-router-dom';
 
@@ -18,22 +15,32 @@ export default function Navbar() {
   const { pathname } = useLocation();
   const page = PAGE_TITLES[pathname] || PAGE_TITLES['/'];
 
-  const today = new Date().toLocaleDateString('en-PK', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-  });
-
   return (
     <header className="navbar">
-      <div className="navbar-left">
-        <h2>{page.title}</h2>
-        <p>{page.sub}</p>
+      {/* Search bar */}
+      <div className="navbar-search">
+        <span className="navbar-search-icon">🔍</span>
+        <input placeholder="Search anything..." readOnly />
+        <span className="navbar-search-kbd">⌘K</span>
       </div>
+
+      {/* Right side actions */}
       <div className="navbar-right">
-        <span className="navbar-date">{today}</span>
-        <div className="admin-badge">
-          <div className="admin-avatar">A</div>
-          <span className="admin-name">Admin</span>
+        <button className="navbar-btn">
+          + New Order
+        </button>
+
+        <div className="navbar-icon-btn" title="Toggle theme" onClick={()=>{
+          
+        }}>🌙</div>
+        <div className="navbar-icon-btn" title="Settings">🎨</div>
+
+        <div className="navbar-icon-btn" title="Notifications">
+          🔔
+          <span className="navbar-notif-dot"></span>
         </div>
+
+        <div className="navbar-avatar" title="Admin">AS</div>
       </div>
     </header>
   );

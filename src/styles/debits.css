@@ -6,20 +6,27 @@
 /* ── Summary Cards Grid ──────────────────────── */
 .debits-stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 18px;
-  margin-bottom: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 .debit-stat-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 22px 24px;
+  padding: 14px 16px;
   box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+@media (prefers-color-scheme: light) {
+  .debit-stat-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafb 100%);
+    border-color: #dfe5eb;
+  }
 }
 
 .debit-stat-card:hover {
@@ -32,44 +39,50 @@
   content: '';
   position: absolute;
   top: 0; left: 0;
-  width: 4px; height: 100%;
-  background: linear-gradient(180deg, var(--gold), transparent);
-  border-radius: 4px 0 0 4px;
+  width: 3px; height: 100%;
+  background: linear-gradient(180deg, #f59e0b, transparent);
+  border-radius: 3px 0 0 3px;
 }
 
-.debit-stat-card.alert::after { background: linear-gradient(180deg, var(--red), transparent); }
-.debit-stat-card.clear::after { background: linear-gradient(180deg, var(--green), transparent); }
+.debit-stat-card.alert::after { background: linear-gradient(180deg, #dc2626, transparent); }
+.debit-stat-card.clear::after { background: linear-gradient(180deg, #16a34a, transparent); }
 
 .debit-stat-icon {
-  font-size: 1.4rem;
-  margin-bottom: 12px;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
   display: block;
 }
 
 .debit-stat-label {
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-size: 0.65rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.11em;
   color: var(--text-muted);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .debit-stat-value {
   font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: 1.45rem;
   font-weight: 700;
-  color: var(--black);
-  line-height: 1;
+  color: #1f2937;
+  line-height: 1.1;
 }
 
-.debit-stat-card.alert .debit-stat-value { color: var(--red); }
-.debit-stat-card.clear .debit-stat-value { color: var(--green); }
+@media (prefers-color-scheme: light) {
+  .debit-stat-value {
+    color: #111827;
+  }
+}
+
+.debit-stat-card.alert .debit-stat-value { color: #dc2626; }
+.debit-stat-card.clear .debit-stat-value { color: #16a34a; }
 
 .debit-stat-sub {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   color: var(--text-muted);
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 /* ── Panel Header with Search ────────────────── */
@@ -77,24 +90,31 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 26px;
+  padding: 16px 20px;
   border-bottom: 1px solid var(--border-soft);
   background: var(--surface-2);
-  gap: 20px;
+  gap: 16px;
   flex-wrap: wrap;
+}
+
+@media (prefers-color-scheme: light) {
+  .debits-panel-header {
+    background: #fafbfc;
+    border-bottom-color: #ebedf1;
+  }
 }
 
 .debits-panel-header h3 {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  color: var(--black);
+  color: #111827;
 }
 
 .debits-panel-header p {
-  font-size: 0.74rem;
-  color: var(--text-muted);
-  margin-top: 3px;
+  font-size: 0.72rem;
+  color: #6b7280;
+  margin-top: 2px;
 }
 
 /* ── Search Bar ──────────────────────────────── */
@@ -105,18 +125,25 @@
   background: var(--surface);
   border: 1.5px solid var(--border);
   border-radius: 50px;
-  padding: 8px 16px;
-  min-width: 280px;
+  padding: 7px 14px;
+  min-width: 240px;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-.debits-search-wrapper:focus-within {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(201,162,39,0.1);
+@media (prefers-color-scheme: light) {
+  .debits-search-wrapper {
+    background: #ffffff;
+    border-color: #d1d7e0;
+  }
+  
+  .debits-search-wrapper:focus-within {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.08);
+  }
 }
 
 .debits-search-icon {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   flex-shrink: 0;
   opacity: 0.6;
 }
@@ -128,7 +155,7 @@
   box-shadow: none !important;
   background: transparent;
   font-family: var(--font-body);
-  font-size: 0.84rem;
+  font-size: 0.8rem;
   color: var(--text-primary);
   padding: 0 !important;
   min-width: 0;
@@ -140,7 +167,7 @@
   border: none;
   background: none;
   cursor: pointer;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   padding: 2px 4px;
   border-radius: 50%;
@@ -197,32 +224,50 @@
 .modal-chip {
   display: flex;
   flex-direction: column;
-  padding: 10px 16px;
+  padding: 8px 14px;
   border-radius: var(--radius-sm);
-  gap: 2px;
+  gap: 1px;
   flex: 1;
-  min-width: 110px;
+  min-width: 90px;
   border: 1px solid transparent;
 }
 
 .modal-chip span {
-  font-size: 0.66rem;
-  font-weight: 600;
+  font-size: 0.63rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  opacity: 0.75;
+  letter-spacing: 0.09em;
+  opacity: 0.8;
 }
 
 .modal-chip strong {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1rem;
   font-weight: 700;
 }
 
-.modal-chip.billed { background: var(--bg-2);    color: var(--text-secondary); border-color: var(--border); }
-.modal-chip.paid   { background: var(--green-bg); color: var(--green);         border-color: rgba(26,122,74,0.2); }
-.modal-chip.due    { background: var(--red-bg);   color: var(--red);           border-color: rgba(192,57,43,0.2); }
-.modal-chip.clear  { background: var(--green-bg); color: var(--green);         border-color: rgba(26,122,74,0.2); }
+@media (prefers-color-scheme: light) {
+  .modal-chip.billed { 
+    background: #f3f4f6;
+    color: #374151;
+    border-color: #d1d5db;
+  }
+  .modal-chip.paid { 
+    background: #dcfce7;
+    color: #166534;
+    border-color: #86efac;
+  }
+  .modal-chip.due { 
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fca5a5;
+  }
+  .modal-chip.clear { 
+    background: #dcfce7;
+    color: #166534;
+    border-color: #86efac;
+  }
+}
 
 /* ── Responsive ──────────────────────────────── */
 @media (max-width: 900px) {

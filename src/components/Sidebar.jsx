@@ -60,10 +60,10 @@ export default function Sidebar() {
 
       {/* Admin user row at bottom */}
       <div className="sidebar-footer">
-        <div className="sidebar-user-avatar">A</div>
+        <div className="sidebar-user-avatar">M</div>
         <div className="sidebar-user-info">
-          <div className="sidebar-user-name">Admin</div>
-          <div className="sidebar-user-role">Store Owner</div>
+          <div className="sidebar-user-name">Fashion cloth center</div>
+          <div className="sidebar-user-role">End Semester Project</div>
         </div>
       </div>
     </aside>

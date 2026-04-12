@@ -4,9 +4,11 @@
 // All functionality unchanged — same props from App.jsx.
 // ============================================================
 
+import { useState } from 'react';
 import {
   AreaChart, Area,
-  XAxis, YAxis, Tooltip, ResponsiveContainer,
+  BarChart, Bar,
+  XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,
 } from 'recharts';
 
 const fmt      = (n) => `Rs. ${Number(n).toLocaleString()}`;
@@ -87,6 +89,53 @@ function RevenueChart({ orders }) {
   );
 }
 
+// ── Orders bar chart ─────────────────────────────────────────
+function OrdersChart({ orders }) {
+  const data = MONTHS.map((m, i) => ({
+    month: m,
+    count: orders.filter(o => new Date(o.date).getMonth() === i).length,
+    total: orders
+      .filter(o => new Date(o.date).getMonth() === i)
+      .reduce((s, o) => s + (o.finalTotal ?? 0), 0),
+  }));
+  return (
+    <ResponsiveContainer width="100%" height={210}>
+      <BarChart data={data} margin={{ top:10, right:10, left:0, bottom:0 }}>
+        <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" vertical={false}/>
+        <XAxis dataKey="month" tick={{ fontSize:11, fill:'#9ca3af' }} axisLine={false} tickLine={false}/>
+        <YAxis tickFormatter={v => v >= 1000 ? `${(v/1000).toFixed(0)}k` : v}
+          tick={{ fontSize:11, fill:'#9ca3af' }} axisLine={false} tickLine={false} width={38}/>
+        <Tooltip formatter={v => [fmt(v),'Order Value']}
+          contentStyle={{ background:'#fff', border:'1px solid #e5e7eb', borderRadius:8, fontSize:12 }}/>
+        <Bar dataKey="total" fill="#2563eb" radius={[6,6,0,0]} stroke="none"/>
+      </BarChart>
+    </ResponsiveContainer>
+  );
+}
+
+// ── Profit bar chart ────────────────────────────────────────
+function ProfitChart({ orders }) {
+  const data = MONTHS.map((m, i) => ({
+    month: m,
+    profit: orders
+      .filter(o => new Date(o.date).getMonth() === i)
+      .reduce((s, o) => s + ((o.finalTotal ?? 0) * 0.3), 0), // Assume 30% profit margin
+  }));
+  return (
+    <ResponsiveContainer width="100%" height={210}>
+      <BarChart data={data} margin={{ top:10, right:10, left:0, bottom:0 }}>
+        <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" vertical={false}/>
+        <XAxis dataKey="month" tick={{ fontSize:11, fill:'#9ca3af' }} axisLine={false} tickLine={false}/>
+        <YAxis tickFormatter={v => v >= 1000 ? `${(v/1000).toFixed(0)}k` : v}
+          tick={{ fontSize:11, fill:'#9ca3af' }} axisLine={false} tickLine={false} width={38}/>
+        <Tooltip formatter={v => [fmt(v),'Profit']}
+          contentStyle={{ background:'#fff', border:'1px solid #e5e7eb', borderRadius:8, fontSize:12 }}/>
+        <Bar dataKey="profit" fill="#7c3aed" radius={[6,6,0,0]} stroke="none"/>
+      </BarChart>
+    </ResponsiveContainer>
+  );
+}
+
 // ── Fixed sparkline trend data ────────────────────────────────
 const T_UP   = [3,4,3,5,4,6,7].map(v=>({v}));
 const T_FLAT = [5,4,5,4,6,5,6].map(v=>({v}));
@@ -105,6 +154,8 @@ const ACTIVITY = [
 
 // ═════════════════════════════════════════════════════════════
 export default function Dashboard({ products, customers, orders }) {
+
+  const [activeChart, setActiveChart] = useState('Revenue');
 
   const totalProducts  = products.length;
   const totalCustomers = customers.length;
@@ -196,19 +247,38 @@ export default function Dashboard({ products, customers, orders }) {
               <p>Monthly performance for the current year</p>
             </div>
             <div style={{ display:'flex', gap:6 }}>
-              {['Revenue','Orders','Profit'].map((t,i) => (
-                <span key={t} style={{
+              {['Revenue','Orders','Profit'].map((t) => {
+                const buttonStyle = {
                   padding:'4px 10px', borderRadius:6, cursor:'pointer',
                   fontSize:'0.74rem', fontWeight:500,
-                  background: i===0 ? 'rgba(22,163,74,0.1)' : 'transparent',
-                  color:       i===0 ? '#16a34a' : '#6b7280',
-                  border:'1px solid', borderColor: i===0 ? 'rgba(22,163,74,0.22)' : '#e5e7eb',
-                }}>{t}</span>
-              ))}
+                  background: activeChart === t ? 'rgba(22,163,74,0.1)' : 'transparent',
+                  color:       activeChart === t ? '#16a34a' : '#6b7280',
+                  border:'1px solid', borderColor: activeChart === t ? 'rgba(22,163,74,0.22)' : '#e5e7eb',
+                  transition: 'all 0.2s ease',
+                };
+
+                const handleClick = () => {
+                  if (t === 'Orders') {
+                    window.location.href = '/orders';
+                  } else {
+                    setActiveChart(t);
+                  }
+                };
+
+                return (
+                  <span 
+                    key={t}
+                    onClick={handleClick}
+                    style={buttonStyle}
+                  >{t}</span>
+                );
+              })}
             </div>
           </div>
           <div style={{ padding:'16px 16px 8px' }}>
-            <RevenueChart orders={orders}/>
+            {activeChart === 'Revenue' && <RevenueChart orders={orders}/>}
+            {activeChart === 'Orders' && <OrdersChart orders={orders}/>}
+            {activeChart === 'Profit' && <ProfitChart orders={orders}/>}
           </div>
         </div>
 

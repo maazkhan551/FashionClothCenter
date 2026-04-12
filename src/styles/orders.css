@@ -318,6 +318,18 @@
   font-weight: 600;
 }
 
+/* Tooltip animation */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ── Responsive ──────────────────────────────── */
 @media (max-width: 900px) {
   .order-items-header,
